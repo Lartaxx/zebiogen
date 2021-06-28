@@ -60,10 +60,6 @@ class User extends Authenticatable
 
     }
 
-    public static function checkUser($email) {
-                $user = User::findUser($email);
-                return $user;
-    }
 
     public static function createUser($name, $email, $password, $is_admin) {
         return User::create([
