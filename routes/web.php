@@ -32,7 +32,9 @@ Route::get("/my-account", function() {
     return view("account");
 })->name("my-account");
 
-Route::post("/login", [LoginController::class, "check"]);
+Route::post("/login", [LoginController::class, "login"]);
+
+Route::post("/register", [LoginController::class, "register"]);
 
 Route::post("/my-account", [LoginController::class, "account_modified"]);
 

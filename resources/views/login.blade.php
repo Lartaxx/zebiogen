@@ -38,7 +38,7 @@
         @if(!Auth::user())
         <div class="container" id="container">
             <div class="form-container sign-up-container">
-                <form action="{{ url('/login') }}" method="POST">
+                <form action="{{ url('/register') }}" method="POST">
                     @method("post")
                     @csrf
                     <h1>Inscription</h1>
@@ -53,7 +53,7 @@
                     @method("post")
                     @csrf
                     <h1>Connexion</h1>
-                    <input type="text" placeholder="Email" name="pseudo" />
+                    <input type="text" placeholder="Email" name="email" />
                     <input type="password" placeholder="Mot de passe" name="password" />
                     <button type="submit">Se connecter</button>
                 </form>
