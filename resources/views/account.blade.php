@@ -272,25 +272,20 @@
                                                             <label>Pseudo :</label>
                                                             <input type="text" class="form-control form-control-user"
                                                                 id="exampleInputEmail" aria-describedby="pseudo" name="pseudo"
-                                                                placeholder="Entrer votre email" value={{ Auth::user()->name }}>
+                                                                placeholder="Entrer votre email" value="{{ Auth::user()->name }}">
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Email :</label>
                                                             <input type="email" class="form-control form-control-user" name="email"
                                                                 id="exampleInputEmail" aria-describedby="email"
-                                                                 value={{ Auth::user()->email }} disabled>
+                                                                 value="{{ Auth::user()->email }}" disabled>
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Administrateur :</label>
-                                                            @if (Auth::user()->is_admin === 1)
                                                             <input type="checkbox" class="form-control form-control-user"
                                                                 id="exampleInputEmail" aria-describedby="admin"
-                                                                disabled checked>
-                                                            @else
-                                                            <input type="checkbox" class="form-control form-control-user"
-                                                                id="exampleInputEmail" aria-describedby="admin"
-                                                                 disabled>
-                                                            @endif
+                                                                disabled {{ Auth::user()->is_admin === 1 ? "checked" : "" }}>
+                                                           
                                                         </div>
                                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                                             Enregister les modifications
