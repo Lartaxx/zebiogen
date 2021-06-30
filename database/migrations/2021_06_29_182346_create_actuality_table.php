@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAccountsTable extends Migration
+class CreateActualityTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateAccountsTable extends Migration
      */
     public function up()
     {
-        Schema::create('accounts', function (Blueprint $table) {
+        Schema::create('actuality', function (Blueprint $table) {
             $table->id();
-            $table->string('category');
-            $table->string('email');
-            $table->string("password");
+            $table->string("title");
+            $table->string("content");
+            $table->string("by");
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateAccountsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accounts');
+        Schema::dropIfExists('actuality');
     }
 }

@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->integer("is_admin")->default(0);
+            $table->integer("is_supplier")->default(0);
         });
     }
 

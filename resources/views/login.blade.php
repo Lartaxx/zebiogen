@@ -24,6 +24,34 @@
             <span aria-hidden="true">x</span>
           </button>
     </div>
+    @elseif(session("success.email"))
+    <div class="alert alert-success alert-dismissible show" role="alert">
+        {{ session('success.email') }}
+        <button type="button" class="close" data-dismiss="alert" >
+            <span aria-hidden="true">x</span>
+          </button>
+    </div>
+    @elseif(session("error.email"))
+    <div class="alert alert-danger alert-dismissible show" role="alert">
+        {{ session('error.email') }}
+        <button type="button" class="close" data-dismiss="alert" >
+            <span aria-hidden="true">x</span>
+          </button>
+    </div>
+    @elseif(session("sucess.password.reset"))
+    <div class="alert alert-success alert-dismissible show" style="background-color: green;border: 1px green;border-color: green" role="alert">
+        {{ session('sucess.password.reset') }}
+        <button type="button" class="close" data-dismiss="alert" >
+            <span aria-hidden="true">x</span>
+          </button>
+    </div>
+    @elseif(session("error.not.email.reset"))
+    <div class="alert alert-danger alert-dismissible show" role="alert">
+        {{ session('error.not.email.reset') }}
+        <button type="button" class="close" data-dismiss="alert" >
+            <span aria-hidden="true">x</span>
+          </button>
+    </div>
 @endif
     @if($errors->any())
         @foreach ($errors->all() as $error)
@@ -55,6 +83,7 @@
                     <h1>Connexion</h1>
                     <input type="text" placeholder="Email" name="email" />
                     <input type="password" placeholder="Mot de passe" name="password" />
+                    <a href="{{ url("/forgot-password") }}">J'ai oublié mon mot de passe</a>
                     <button type="submit">Se connecter</button>
                 </form>
             </div>
@@ -79,7 +108,7 @@
     </body>
 </html>
 @else
-    {{ Redirect::to("/home") }}}}
+    {!! Redirect::to("/home") !!}
 @endif
 
 

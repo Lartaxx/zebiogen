@@ -13,11 +13,9 @@
     <title>Zebiogen - {{ Auth::user()->name }}</title>
 
     <!-- Custom fonts for this template-->
-    <script src="https://kit.fontawesome.com/0017d4f378.js" crossorigin="anonymous"></script>
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-
     <!-- Custom styles for this template-->
     <link href="{{ url("css/sb-admin-2.min.css") }}" rel="stylesheet">
     <link rel="shortcut icon" href="{{ url("images/favicon.png") }}" />
@@ -58,25 +56,23 @@
                 Générateur
             </div>
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="far fa-user"></i>
-                    <span>Catégories</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Voici les catégories : {{ \App\Models\Account::distinct()->count("category") }}</h6>
-                        @foreach (\App\Models\Account::distinct()->get("category") as $category)
-                        <a class="collapse-item" href="{{ strtolower(url("accounts/{$category['category']}")) }}">{{ $category['category'] }}</a>
-                        @endforeach
-                    </div>
+          <!-- Nav Item - Pages Collapse Menu -->
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                aria-expanded="true" aria-controls="collapseTwo">
+                <i class="far fa-user"></i>
+                <span>Catégories</span>
+            </a>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Voici les catégories : {{ \App\Models\Account::distinct()->count("category") }}</h6>
+                    @foreach (\App\Models\Account::distinct()->get("category") as $category)
+                    <a class="collapse-item" href="{{ strtolower(url("accounts/{$category['category']}")) }}">{{ $category['category'] }}</a>
+                    @endforeach
                 </div>
-            </li>
-            
+            </div>
+        </li>
 
-            <!-- Divider -->
             <hr class="sidebar-divider">
 
             @if(Auth::user()->is_admin === 1)
@@ -90,7 +86,7 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
                     aria-expanded="true" aria-controls="collapseThree">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Name 1</span>
+                    <span>Comptes</span>
                 </a>
                 <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
@@ -176,7 +172,7 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{ url("/my-account") }}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Mon profil
                                 </a>
@@ -195,96 +191,90 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    @if($errors->any())
-                    @foreach ($errors->all() as $error)
-                        <div class="alert alert-danger alert-dismissible  show" role="alert">
-                            {{ $error }}
-                            <button type="button" class="close" data-dismiss="alert" >
-                                <span aria-hidden="true">x</span>
-                              </button>
-                        </div>
-                    @endforeach
-                @endif
-                    @if (session('success.account_created'))
-                        <div class="alert alert-success alert-dismissible show" role="alert">
-                            {{ session('success.account_created') }}
-                            <button type="button" class="close" data-dismiss="alert" >
-                                <span aria-hidden="true">x</span>
-                            </button>
-                        </div>
-                    @elseif(session('success.account_find'))
-                        <div class="alert alert-success alert-dismissible show" role="alert">
-                            {{ session('success.account_find') }}
-                            <button type="button" class="close" data-dismiss="alert" >
-                                <span aria-hidden="true">x</span>
-                            </button>
-                        </div>
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-4 text-gray-800">
+                        Bonjour {{ Auth::user()->name }}, voici les données de Zebiogen le {{ date('j/m/Y') }} à {{ date("H:i") }}
+                    </h1>
+                    @if (session('success.claimed_account'))
+                    <div class="alert alert-success alert-dismissible show" role="alert">
+                        {{ session('success.claimed_account') }}
+                        <button type="button" class="close" data-dismiss="alert" >
+                            <span aria-hidden="true">x</span>
+                        </button>
+                    </div>
                     @endif
-                    
-
-                    <div class="container">
-
-                        <!-- Outer Row -->
-                        <div class="row justify-content-center">
-                
-                            <div class="col-xl-10 col-lg-12 col-md-9">
-                
-                                <div class="card o-hidden border-0 shadow-lg my-5">
-                                    <div class="card-body p-0">
-                                        <!-- Nested Row within Card Body -->
-                                        <div class="row">
-                                            <div class="col-lg-6 d-none d-lg-block bg-password-image"></div>
-                                            <div class="col-lg-6">
-                                                <div class="p-5">
-                                                    <div class="text-center">
-                                                        @if (session('success.account_modified'))
-                                                        <div class="alert alert-success alert-dismissible show" role="alert">
-                                                            {{ session('success.account_modified') }}
-                                                            <button type="button" class="close" data-dismiss="alert" >
-                                                                <span aria-hidden="true">x</span>
-                                                            </button>
-                                                        </div>
-                                                        @endif
-                                                        <h1 class="h4 text-gray-900 mb-2">Modifier votre compte</h1>
-                                                        <p class="mb-4">{{ Auth::user()->name }}, vous pouvez voir et modifier certaines données de votre compte ici.</p>
-                                                    </div>
-                                                    <form class="user" method="POST" action={{ url('/my-account') }}>
-                                                        @method("post")
-                                                        @csrf
-                                                        <div class="form-group">
-                                                            <label>Pseudo :</label>
-                                                            <input type="text" class="form-control form-control-user"
-                                                                id="exampleInputEmail" aria-describedby="pseudo" name="pseudo"
-                                                                placeholder="Entrer votre email" value="{{ Auth::user()->name }}">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Email :</label>
-                                                            <input type="email" class="form-control form-control-user" name="email"
-                                                                id="exampleInputEmail" aria-describedby="email"
-                                                                 value="{{ Auth::user()->email }}" disabled>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Grade :</label>
-                                                            <input type="text" class="form-control form-control-user"
-                                                                id="exampleInputEmail" aria-describedby="admin"
-                                                                disabled value="{{ Auth::user()->is_admin === 1 ? "Administrateur" : "Utilisateur" }}">
-                                                           
-                                                        </div>
-                                                        <button type="submit" class="btn btn-primary btn-user btn-block">
-                                                            Enregister les modifications
-                                                        </button>
-                                                    </form>
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                
-                            </div>
-                
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Vos comptes réclamés ({{ \App\Models\ClaimedAccounts::where("user_id", Auth::user()->id)->get()->count() }})</h6>
                         </div>
-                
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered"  id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Catégorie</th>
+                                            <th>Email / Nom</th>
+                                            <th>Mot de passe</th>
+                                            <th>Réclamé le</th>
+                                            <th>Fonctionnement</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Catégorie</th>
+                                            <th>Email / Nom</th>
+                                            <th>Mot de passe</th>
+                                            <th>Réclamé le</th>
+                                            <th>Fonctionnement</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                       @foreach (\App\Models\ClaimedAccounts::where("user_id", Auth::user()->id)->get() as $account)
+                                            @switch($account["category"])
+                                            @case("Netflix")
+                                                @php
+                                                    $image_logo = asset("images/netflix.svg");
+                                                @endphp
+                                                @break
+                                            @case("Steam")
+                                                @php
+                                                $image_logo = asset("images/steam.svg");
+                                                @endphp
+                                                @break
+                                            @case("Origin")
+                                                @php
+                                                $image_logo = asset("images/origin.svg");
+                                                @endphp
+                                                @break
+                                            @case("Telegram")
+                                                @php
+                                                $image_logo = asset("images/telegram.svg");
+                                                @endphp
+                                                @break
+                                            @default
+                                                @php
+                                                $image_logo = asset("images/web.svg");
+                                                @endphp                       
+                                        @endswitch
+                                       <tr>
+                                           <td><img src="{{ $image_logo }}" style="height: 40px; width: 40px;"></td>
+                                           <td>{{ $account["email"] }}</td>
+                                           <td>{{ $account["password"] }}</td>
+                                           <td>{{ \Carbon\Carbon::parse($account["created_at"])->format('d/m/Y à H:i')}}</td>
+                                           <td>
+                                            <a href="{{ url("/delete-claimed-accounts/{$account['id']}") }}" class="btn btn-danger btn-icon-split">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-trash"></i>
+                                            </span>
+                                            <span class="text">Compte non fonctionnel</span>
+                                            </a>
+                                        </td>            
+                                        </tr>
+                                       @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 
                 <!-- /.container-fluid -->
@@ -341,7 +331,29 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ url("js/sb-admin-2.min.js") }}"></script>
+    <script src="https://kit.fontawesome.com/0017d4f378.js" crossorigin="anonymous"></script>
+    <script src="{{ url("js/jquery.dataTables.min.js") }}"></script>
+    <script src="{{ url("js/dataTables.bootstrap4.min.js") }}"></script>    <script>// Call the dataTables jQuery plugin
+        $(document).ready(function() {
+          $('#dataTable').DataTable();
+        });
+</script>        
 
+
+<style>
+
+.page-item.active .page-link {
+    color: rgb(232, 230, 227) !important;
+    background-color: #5F0276 !important;
+    border-color: #5F0276 !important;
+}
+
+.bg-gradient-primary {
+    background-color: #5F0276 !important;
+    background-image: linear-gradient(#5F0276 10%, #9204b6) 100% !important);
+}
+
+</style>
 </body>
 
 </html>

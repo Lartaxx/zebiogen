@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -47,33 +46,29 @@ class User extends Authenticatable
     ];
 
     protected static function findUser($email) {
-        return DB::table("users")
-                ->where("email", $email)
+        return User::where("email", $email)
                 ->get()
                 ->first();
     }
 
     protected static function hasUsers() {
-        return DB::table("users")
-                ->get()
+        return User::get()
                 ->first();
 
     }
 
 
-    public static function createUser($name, $email, $password, $is_admin) {
+    public static function createUser($name, $email, $password) {
         return User::create([
             "name" => $name,
             "email" => $email,
-            "password" => Hash::make($password),
-            "is_admin" => $is_admin
-        ]);
+            "password" => Hash::make($password)
+            ]);
     }
 
-    public static function modifyAccount(array $input) {
-            DB::table("users")
-            ->where("id", Auth::user()->id)
-            ->update(["name" => $input["pseudo"]]);
+    public static function modifyAccount($pseudo) {
+            User::where("id", Auth::user()->id)
+                ->update(["name" => $pseudo]);
             return Redirect::to(route("my-account"))->with("success.account_modified", "Votre compte a bien été modifié !");
         }
 }

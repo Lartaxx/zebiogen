@@ -1,3 +1,4 @@
+@if(Auth::user()->is_admin === 1)
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -45,7 +46,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="{{ route("home") }}">
+                <a class="nav-link" href="index.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -55,26 +56,43 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Générateur
+                Interface
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="far fa-user"></i>
-                    <span>Catégories</span>
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Components</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Voici les catégories : {{ \App\Models\Account::distinct()->count("category") }}</h6>
-                        @foreach (\App\Models\Account::distinct()->get("category") as $category)
-                        <a class="collapse-item" href="{{ strtolower(url("accounts/{$category['category']}")) }}">{{ $category['category'] }}</a>
-                        @endforeach
+                        <h6 class="collapse-header">Custom Components:</h6>
+                        <a class="collapse-item" href="buttons.html">Buttons</a>
+                        <a class="collapse-item" href="cards.html">Cards</a>
                     </div>
                 </div>
             </li>
-            
+
+            <!-- Nav Item - Utilities Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                    aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-fw fa-wrench"></i>
+                    <span>Utilities</span>
+                </a>
+                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Custom Utilities:</h6>
+                        <a class="collapse-item" href="utilities-color.html">Colors</a>
+                        <a class="collapse-item" href="utilities-border.html">Borders</a>
+                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
+                        <a class="collapse-item" href="utilities-other.html">Other</a>
+                    </div>
+                </div>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -87,19 +105,19 @@
  
              <!-- Nav Item - Pages Collapse Menu -->
              <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
-                    aria-expanded="true" aria-controls="collapseThree">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Name 1</span>
-                </a>
-                <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Voir les actions :</h6>
-                        <a class="collapse-item" href="{{ route("admin.add_account") }}">Ajouter un compte</a>
-                        <a class="collapse-item" href="{{ url("/see-accounts") }}">Voir les comptes</a>
-                    </div>
-                </div>
-            </li>
+                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
+                     aria-expanded="true" aria-controls="collapseThree">
+                     <i class="fas fa-fw fa-cog"></i>
+                     <span>Name 1</span>
+                 </a>
+                 <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                     <div class="bg-white py-2 collapse-inner rounded">
+                         <h6 class="collapse-header">Voir les actions :</h6>
+                         <a class="collapse-item active" href="#">Ajouter un compte</a>
+                         <a class="collapse-item" href="{{ url("/see-accounts") }}">Voir les comptes</a>
+                     </div>
+                 </div>
+             </li>
  
              <!-- Nav Item - Utilities Collapse Menu -->
              <li class="nav-item">
@@ -126,8 +144,6 @@
              @endif
 
 
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
@@ -176,7 +192,7 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{ url("/my-account") }}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Mon profil
                                 </a>
@@ -195,33 +211,13 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    @if($errors->any())
-                    @foreach ($errors->all() as $error)
-                        <div class="alert alert-danger alert-dismissible  show" role="alert">
-                            {{ $error }}
-                            <button type="button" class="close" data-dismiss="alert" >
-                                <span aria-hidden="true">x</span>
-                              </button>
-                        </div>
-                    @endforeach
-                @endif
-                    @if (session('success.account_created'))
-                        <div class="alert alert-success alert-dismissible show" role="alert">
-                            {{ session('success.account_created') }}
-                            <button type="button" class="close" data-dismiss="alert" >
-                                <span aria-hidden="true">x</span>
-                            </button>
-                        </div>
-                    @elseif(session('success.account_find'))
-                        <div class="alert alert-success alert-dismissible show" role="alert">
-                            {{ session('success.account_find') }}
-                            <button type="button" class="close" data-dismiss="alert" >
-                                <span aria-hidden="true">x</span>
-                            </button>
-                        </div>
-                    @endif
-                    
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-4 text-gray-800">
+                        Bonjour {{ Auth::user()->name }}, voici les données de Zebiogen le {{ date('j/m/Y') }} à {{ date("H:i") }}
+                        
+                    </h1>
 
+                    
                     <div class="container">
 
                         <!-- Outer Row -->
@@ -237,41 +233,42 @@
                                             <div class="col-lg-6">
                                                 <div class="p-5">
                                                     <div class="text-center">
-                                                        @if (session('success.account_modified'))
+                                                        @if (session('success.file_uploaded'))
                                                         <div class="alert alert-success alert-dismissible show" role="alert">
-                                                            {{ session('success.account_modified') }}
+                                                            {{ session('success.file_uploaded') }}
                                                             <button type="button" class="close" data-dismiss="alert" >
                                                                 <span aria-hidden="true">x</span>
                                                             </button>
                                                         </div>
                                                         @endif
-                                                        <h1 class="h4 text-gray-900 mb-2">Modifier votre compte</h1>
-                                                        <p class="mb-4">{{ Auth::user()->name }}, vous pouvez voir et modifier certaines données de votre compte ici.</p>
+                                                        @if($errors->any())
+                                                            @foreach ($errors->all() as $error)
+                                                                <div class="alert alert-danger alert-dismissible  show" role="alert">
+                                                                    {{ $error }}
+                                                                    <button type="button" class="close" data-dismiss="alert" >
+                                                                        <span aria-hidden="true">x</span>
+                                                                    </button>
+                                                                </div>
+                                                            @endforeach
+                                                        @endif
+                                                        <h1 class="h4 text-gray-900 mb-2">Ajouter une actualité</h1>
+                                                        <p class="mb-4">{{ Auth::user()->name }}, vous pouvez ajouter des actualités !</p>
                                                     </div>
-                                                    <form class="user" method="POST" action={{ url('/my-account') }}>
+                                                    <form class="user" method="POST" action={{ route('admin.post_add_actu') }} enctype="multipart/form-data">
                                                         @method("post")
                                                         @csrf
                                                         <div class="form-group">
-                                                            <label>Pseudo :</label>
+                                                            <label>Titre de l'actualité  :</label>
                                                             <input type="text" class="form-control form-control-user"
-                                                                id="exampleInputEmail" aria-describedby="pseudo" name="pseudo"
-                                                                placeholder="Entrer votre email" value="{{ Auth::user()->name }}">
+                                                                id="exampleInputEmail" aria-describedby="pseudo" name="title"
+                                                                placeholder="Entrer le titre">
                                                         </div>
                                                         <div class="form-group">
-                                                            <label>Email :</label>
-                                                            <input type="email" class="form-control form-control-user" name="email"
-                                                                id="exampleInputEmail" aria-describedby="email"
-                                                                 value="{{ Auth::user()->email }}" disabled>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Grade :</label>
-                                                            <input type="text" class="form-control form-control-user"
-                                                                id="exampleInputEmail" aria-describedby="admin"
-                                                                disabled value="{{ Auth::user()->is_admin === 1 ? "Administrateur" : "Utilisateur" }}">
-                                                           
+                                                            <label>Contenu de l'actualité :</label>
+                                                            <textarea class="form-control" name="content" placeholder="Entrer le contenu"></textarea>
                                                         </div>
                                                         <button type="submit" class="btn btn-primary btn-user btn-block">
-                                                            Enregister les modifications
+                                                            Envoyer
                                                         </button>
                                                     </form>
                                                     
@@ -286,6 +283,12 @@
                         </div>
                 
                     </div>
+                
+                <!-- /.container-fluid -->
+
+            </div>
+
+                   
                 
                 <!-- /.container-fluid -->
 
@@ -345,3 +348,6 @@
 </body>
 
 </html>
+@else
+    {!! Redirect::to(route("home"))->with("error.not_admin", "Vous n'êtes pas administrateur, vous ne pouvez pas accéder à cette page.") !!}
+@endif

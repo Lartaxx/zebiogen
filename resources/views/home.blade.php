@@ -45,7 +45,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="{{ route("home") }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -55,43 +55,58 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Interface
+                Générateur
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Components</span>
+                    <i class="far fa-user"></i>
+                    <span>Catégories</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="buttons.html">Buttons</a>
-                        <a class="collapse-item" href="cards.html">Cards</a>
+                        <h6 class="collapse-header">Voici les catégories : {{ \App\Models\Account::distinct()->count("category") }}</h6>
+                        @foreach (\App\Models\Account::distinct()->get("category") as $category)
+                            @switch($category["category"])
+                                @case("Netflix")
+                                    @php
+                                        $image_logo = asset("images/netflix.svg");
+                                        $color = "#cb0015";
+                                    @endphp
+                                    @break
+                                @case("Steam")
+                                    @php
+                                    $image_logo = asset("images/steam.svg");
+                                    $color = "#061938";
+                                    @endphp
+                                    @break
+                                @case("Origin")
+                                  @php
+                                    $image_logo = asset("images/origin.svg");
+                                    $color = "#f15a1e";
+                                  @endphp
+                                  @break
+                                @case("Telegram")
+                                  @php
+                                    $image_logo = asset("images/telegram.svg");
+                                    $color = "#34acdf";
+                                  @endphp
+                                  @break
+                                @default
+                                    @php
+                                        $image_logo = asset("images/web.svg");
+                                        $color = "white";
+                                    @endphp                       
+                            @endswitch
+                        <a class="collapse-item" href="{{ strtolower(url("accounts/{$category['category']}")) }}" style="color: {{ $color }}"><img src="{{ $image_logo }}" style="height: 15px;width:15px;"> | {{ $category['category'] }}</a>
+                        @endforeach
                     </div>
                 </div>
             </li>
 
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Utilities</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="utilities-color.html">Colors</a>
-                        <a class="collapse-item" href="utilities-border.html">Borders</a>
-                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                        <a class="collapse-item" href="utilities-other.html">Other</a>
-                    </div>
-                </div>
-            </li>
+           
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -104,35 +119,33 @@
  
              <!-- Nav Item - Pages Collapse Menu -->
              <li class="nav-item">
-                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
-                     aria-expanded="true" aria-controls="collapseThree">
-                     <i class="fas fa-fw fa-cog"></i>
-                     <span>Name 1</span>
-                 </a>
-                 <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                     <div class="bg-white py-2 collapse-inner rounded">
-                         <h6 class="collapse-header">Custom Components:</h6>
-                         <a class="collapse-item" href="buttons.html">Buttons</a>
-                         <a class="collapse-item" href="cards.html">Cards</a>
-                     </div>
-                 </div>
-             </li>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
+                    aria-expanded="true" aria-controls="collapseThree">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Comptes</span>
+                </a>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Voir les actions :</h6>
+                        <a class="collapse-item" href="{{ route("admin.add_account") }}">Ajouter un compte</a>
+                        <a class="collapse-item" href="{{ url("/see-accounts") }}">Voir les comptes</a>
+                    </div>
+                </div>
+            </li>
  
              <!-- Nav Item - Utilities Collapse Menu -->
              <li class="nav-item">
                  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilitiesTwo"
                      aria-expanded="true" aria-controls="collapseUtilitiesTwo">
-                     <i class="fas fa-fw fa-wrench"></i>
-                     <span>Utilities</span>
+                     <i class="far fa-newspaper"></i>
+                     <span>Actualités</span>
                  </a>
                  <div id="collapseUtilitiesTwo" class="collapse" aria-labelledby="headingUtilities"
                      data-parent="#accordionSidebar">
                      <div class="bg-white py-2 collapse-inner rounded">
-                         <h6 class="collapse-header">Custom Utilities:</h6>
-                         <a class="collapse-item" href="utilities-color.html">Colors</a>
-                         <a class="collapse-item" href="utilities-border.html">Borders</a>
-                         <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                         <a class="collapse-item" href="utilities-other.html">Other</a>
+                         <h6 class="collapse-header">Gérer les actualités :</h6>
+                         <a class="collapse-item" href="{{ route("admin.add_actu") }}">Ajouter une actualité</a>
+                         <a class="collapse-item" href="#">Modifier une actualité</a>
                      </div>
                  </div>
              </li>
@@ -141,10 +154,22 @@
              <hr class="sidebar-divider">
 
              @endif
+              <!-- Heading -->
+            <div class="sidebar-heading">
+                Discord
+            </div>
+               <!-- Nav Item - Utilities Collapse Menu -->
+               <li class="nav-item">
+                <a class="nav-link collapsed" href="https://discord.gg/Aw2pTZmcU5">
+                    <i class="fab fa-discord"></i>
+                    <span>Discord de support</span>
+                </a>
+                
+            </li>
+
 
 
             <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
@@ -219,9 +244,44 @@
                                 <span aria-hidden="true">x</span>
                             </button>
                         </div>
+                    @elseif(session("success.account_deleted"))
+                        <div class="alert alert-success alert-dismissible show" role="alert">
+                            {{ session('success.account_deleted') }}
+                            <button type="button" class="close" data-dismiss="alert" >
+                                <span aria-hidden="true">x</span>
+                            </button>
+                        </div>
                     @elseif(session('success.account_find'))
                         <div class="alert alert-success alert-dismissible show" role="alert">
                             {{ session('success.account_find') }}
+                            <button type="button" class="close" data-dismiss="alert" >
+                                <span aria-hidden="true">x</span>
+                            </button>
+                        </div>
+                    @elseif(session("error.not_admin"))
+                        <div class="alert alert-danger alert-dismissible show" role="alert">
+                            {{ session('error.not_admin') }}
+                            <button type="button" class="close" data-dismiss="alert" >
+                                <span aria-hidden="true">x</span>
+                            </button>
+                        </div>
+                    @elseif(session("error.not_category"))
+                        <div class="alert alert-danger alert-dismissible show" role="alert">
+                            {{ session('error.not_category') }}
+                            <button type="button" class="close" data-dismiss="alert" >
+                                <span aria-hidden="true">x</span>
+                            </button>
+                        </div>
+                    @elseif(session("success.actuality_created"))
+                        <div class="alert alert-success alert-dismissible show" role="alert">
+                            {{ session('success.actuality_created') }}
+                            <button type="button" class="close" data-dismiss="alert" >
+                                <span aria-hidden="true">x</span>
+                            </button>
+                        </div>
+                    @elseif(session("error.account_not_found"))
+                        <div class="alert alert-danger alert-dismissible show" role="alert">
+                            {{ session('error.account_not_found') }}
                             <button type="button" class="close" data-dismiss="alert" >
                                 <span aria-hidden="true">x</span>
                             </button>
@@ -232,25 +292,124 @@
                         Bonjour {{ Auth::user()->name }}, voici les données de Zebiogen le {{ date('j/m/Y') }} à {{ date("H:i") }}
  
                     </h1>
+                  <!-- Begin Page Content -->
+                <div class="container-fluid">
 
-                    <!-- Earnings (Monthly) Card Example -->
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-primary shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                            Nombres de comptes totaux : </div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                   
+
+                    <!-- Content Row -->
+                    <div class="row">
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Nombre de comptes totaux </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ \App\Models\Account::get()->count() }}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                        </div>
                                     </div>
-                                    <div class="col-auto">
-                                        <i class="far fa-user-circle fa-2x text-gray-300" style="color: #19368b !important;"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Nombre de catégories</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ \App\Models\Account::distinct()->get("category")->count() }}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fab fa-cuttlefish fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Objectif de membre : 50 | Actuellement {{ \App\Models\User::get()->count()  }}/50 
+                                            </div>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col-auto">
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $objectif }}%</div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="progress progress-sm mr-2">
+                                                        <div class="progress-bar bg-info" role="progressbar"
+                                                            style="width: {{ floor($objectif) }}%" aria-valuenow="{{ \App\Models\User::get()->count() }}" aria-valuemin="0"
+                                                            aria-valuemax="100"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pending Requests Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                Nombre d'actualités totales : </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ \App\Models\Actuality::get()->count() }}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="far fa-newspaper text-gray-300 fa-2x"></i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    @foreach (\App\Models\Actuality::get() as $actus)
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Actualité n°{{ $loop->index + 1 }} | {{ $actus["title"] }}</h6>
+                                    
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        {!! $actus["content"] !!}
+                                        <hr>
+                                        Par : {{ $actus["by"] }} <br>
+                                        Le : {{ \Carbon\Carbon::parse($actus["created_at"])->format('d/m/Y à H:i')}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                    
+
+                </div>
+                </div> <!-- Fin -->
                 <!-- /.container-fluid -->
 
             </div>
